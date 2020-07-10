@@ -11,6 +11,17 @@ $(document).ready(function () {
   // Parsing the JSON string to an object
   let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
 
+  // If plans were retrieved from localStorage, update the plan array to display the saved values
+  if (storedPlans !== null) {
+    planTextArr = storedPlans;
+  } else {
+    // Nine blank input boxes are shown
+    planTextArr = new Array(9);
+  }
+
+  var plannerDiv = $("#plannerContainer");
+  plannerDiv.empty();
+
   // DEPENDENCIES
   var saveBtn = $("#saveBtn");
   var currentDay = $("#currentDay");
@@ -27,7 +38,7 @@ $(document).ready(function () {
   var hr4 = $("#hour4");
   var hr4 = $("#hour5");
 
-  var inputs = [$("#input-9")];
+  var inputs = [];
 
   // WHEN I view the timeblocks for that day
   // THEN each timeblock is color coded to indicate whether it is in the past, present, or future
