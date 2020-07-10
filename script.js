@@ -1,77 +1,70 @@
-$(document).ready(function () {
-  // Get time
-  const now = moment().format("MMMM Do YYYY");
-  let nowHour24 = moment().format("H");
+// Get time
+const now = moment().format("MMMM Do YYYY");
+const currentTime = moment().format("HH:MM");
+const currentDay = moment().format("dddd");
+let nowHour24 = moment().format("H");
 
-  // Set current date subheadting
-  let dateHeading = $("#currentDate");
-  dateHeading.text(now);
+// Set current date subheadting
+$("#currentDate").text(now);
+$("#currentDay").text(currentDay);
 
-  // Get stored todos from localStorage
-  // Parsing the JSON string to an object
-  var storedPlans = [];
+// Array of input elements
+var planTextArr = [
+  $("#input-0"),
+  $("#input-1"),
+  $("#input-2"),
+  $("#input-3"),
+  $("#input-4"),
+  $("#input-5"),
+  $("#input-6"),
+  $("#input-7"),
+  $("#input-8"),
+];
+let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
+console.log(storedPlans);
 
-  // if (storedPlans !== null) {
-  //   planTextArr = storedPlans;
-  // }
+if (storedPlans !== null) {
+  planTextArr = storedPlans;
+} else {
+  planTextArr = new Array(9);
+}
 
-  function renderPlans() {}
+//Function to store the input of whichever save button was clicked
+$("button").on("click", function (event) {
+  event.preventDefault();
 
-  function init() {
-    // Write code here to check if there are todos in localStorage
-    // If so, parse the value from localStorage and assign it to the todos variable
-    storedplans = JSON.parse(localStorage.getItem("storedPlans")) || [];
-    // Render todos to the DOM
-    renderPlans();
-  }
-
-  var planTextArr = [
-    $("#input-0"),
-    $("#input-1"),
-    $("#input-2"),
-    $("#input-3"),
-    $("#input-4"),
-    $("#input-5"),
-    $("#input-6"),
-    $("#input-7"),
-    $("#input-8"),
-  ];
-
-  // DEPENDENCIES
-  var saveBtn = $("#saveBtn");
-  var currentDay = $("#currentDay");
-  var textArea = $("#textarea");
-
-  // Timeblock containers
-  var hr9 = $("#hour9");
-  var hr10 = $("#hour10");
-  var hr11 = $("#hour11");
-  var hr12 = $("#hour12");
-  var hr1 = $("#hour1");
-  var hr2 = $("#hour2");
-  var hr3 = $("#hour3");
-  var hr4 = $("#hour4");
-  var hr4 = $("#hour5");
-
-  var inputs = [$("#input-9")];
-
-  // WHEN I view the timeblocks for that day
-  // THEN each timeblock is color coded to indicate whether it is in the past, present, or future
-  // WHEN I click into a timeblock
-  // THEN I can enter an event
-  // WHEN I click the save button for that timeblock
-  // THEN the text for that event is saved in local storage
-  // WHEN I refresh the page
-  // THEN the saved events persist
-
-  // TODO: SAVE TO LOCAL STORAGE WHEN SAVE BUTTON IS CLICKED
-
-  //append textArea to respective hour container
-  function savePlan() {
-    let index = $(this).attr("save-id");
-    let value = planTextArr[index].val();
-    console.log(value);
-    localStorage.setItem("storedPlans", JSON.stringify(planTextArr));
-  }
-  $("button").on("click", savePlan);
+  let index = $(this).attr("save-id");
+  let inputId = "#input-" + index;
+  let value = $(inputId).val();
+  planTextArr[index] = value;
+  console.log(value + index);
+  localStorage.setItem("storedPlans", JSON.stringify(planTextArr));
+  console.log(localStorage.setItem("storedPlans", JSON.stringify(planTextArr)));
 });
+
+// Update color by time
+for (let hour = 9; hour <= 17; hour++) {
+  if (hour > 12) {
+    displayHour = hour - 12;
+    ampm = "pm";
+  } else {
+    displayHour = hour;
+    ampm = "am";
+  }
+  if (hour < nowHour24) {
+    $(".description").addClass("past");
+  } else if (hour > nowHour24) {
+    $(".description").addClass("future");
+  } else {
+    $(".description").addClass("present");
+  }
+}
+
+// WHEN I view the timeblocks for that day
+// THEN each timeblock is color coded to indicate whether it is in the past, present, or future
+// WHEN I click into a timeblock
+// THEN I can enter an event
+// WHEN I click the save button for that timeblock
+// THEN the text for that event is saved in local storage
+// WHEN I refresh the page
+// THEN the saved events persist

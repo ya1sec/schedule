@@ -19,6 +19,29 @@ $(document).ready(function () {
     planTextArr = new Array(9);
   }
 
+  var storedPlans = [];
+
+  init();
+
+  // Write code here to check if there are todos in localStorage
+  // If so, parse the value from localStorage and assign it to the todos variable
+  function renderPlans() {
+    if (storedPlans !== null) {
+      planTextArr = storedPlans;
+    } else {
+      // this should only occur on first time the app is loaded in the browser
+      // helpfully remind user that lunch is important
+      planTextArr = new Array(9);
+      planTextArr[4] = "Picnic lunch outside";
+    }
+  }
+
+  function init() {
+    storedPlans = JSON.parse(localStorage.getItem("storedPlans")) || [];
+    renderPlans();
+  }
+  // Render todos to the DOM
+
   var plannerDiv = $("#plannerContainer");
   plannerDiv.empty();
 
@@ -39,6 +62,15 @@ $(document).ready(function () {
   var hr4 = $("#hour5");
 
   var inputs = [];
+
+  function storePlan() {
+    event.preventDefault();
+
+    let index = $(this).attr("save-id");
+    let value = planTextArr[index].val();
+    console.log(value);
+    localStorage.setItem("storedPlans", JSON.stringify(value));
+  }
 
   // WHEN I view the timeblocks for that day
   // THEN each timeblock is color coded to indicate whether it is in the past, present, or future
