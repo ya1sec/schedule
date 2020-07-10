@@ -9,7 +9,33 @@ $(document).ready(function () {
 
   // Get stored todos from localStorage
   // Parsing the JSON string to an object
-  let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
+  var storedPlans = [];
+
+  // if (storedPlans !== null) {
+  //   planTextArr = storedPlans;
+  // }
+
+  function renderPlans() {}
+
+  function init() {
+    // Write code here to check if there are todos in localStorage
+    // If so, parse the value from localStorage and assign it to the todos variable
+    storedplans = JSON.parse(localStorage.getItem("storedPlans")) || [];
+    // Render todos to the DOM
+    renderPlans();
+  }
+
+  var planTextArr = [
+    $("#input-0"),
+    $("#input-1"),
+    $("#input-2"),
+    $("#input-3"),
+    $("#input-4"),
+    $("#input-5"),
+    $("#input-6"),
+    $("#input-7"),
+    $("#input-8"),
+  ];
 
   // DEPENDENCIES
   var saveBtn = $("#saveBtn");
@@ -41,8 +67,11 @@ $(document).ready(function () {
   // TODO: SAVE TO LOCAL STORAGE WHEN SAVE BUTTON IS CLICKED
 
   //append textArea to respective hour container
-  function notify() {
-    alert("clicked");
+  function savePlan() {
+    let index = $(this).attr("save-id");
+    let value = planTextArr[index].val();
+    console.log(value);
+    localStorage.setItem("storedPlans", JSON.stringify(planTextArr));
   }
-  $("button").on("click", notify);
+  $("button").on("click", savePlan);
 });
