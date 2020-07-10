@@ -38,4 +38,9 @@ var hr4 = $("#hour5");
 //     renderTodos();
 //   }
 // });
-console.log(textArea.value);
+
+//append textArea to respective hour container
+function notify() {
+  alert("clicked");
+}
+$("button").on("click", notify);
