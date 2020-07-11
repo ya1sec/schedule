@@ -20,13 +20,14 @@ var planTextArr = [
   $("#input-7").val(),
   $("#input-8").val(),
 ];
-let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
-console.log(storedPlans);
+// console.log(storedPlans);
 
 // selecting all .description fields (inputs)
 const fields = $(".description");
 // looping through each to set value to match storedPlans
 fields.each(function (i, field) {
+  let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
+
   $(field).val(storedPlans[i]);
 });
 
