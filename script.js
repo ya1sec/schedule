@@ -10,24 +10,25 @@ $("#currentDay").text(currentDay);
 
 // Array of input elements
 var planTextArr = [
-  $("#input-0"),
-  $("#input-1"),
-  $("#input-2"),
-  $("#input-3"),
-  $("#input-4"),
-  $("#input-5"),
-  $("#input-6"),
-  $("#input-7"),
-  $("#input-8"),
+  $("#input-0").val(),
+  $("#input-1").val(),
+  $("#input-2").val(),
+  $("#input-3").val(),
+  $("#input-4").val(),
+  $("#input-5").val(),
+  $("#input-6").val(),
+  $("#input-7").val(),
+  $("#input-8").val(),
 ];
 let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
 console.log(storedPlans);
 
-if (storedPlans !== null) {
-  planTextArr = storedPlans;
-} else {
-  planTextArr = new Array(9);
-}
+// selecting all .description fields (inputs)
+const fields = $(".description");
+// looping through each to set value to match storedPlans
+fields.each(function (i, field) {
+  $(field).val(storedPlans[i]);
+});
 
 //Function to store the input of whichever save button was clicked
 $("button").on("click", function (event) {
@@ -39,10 +40,10 @@ $("button").on("click", function (event) {
   planTextArr[index] = value;
   console.log(value + index);
   localStorage.setItem("storedPlans", JSON.stringify(planTextArr));
-  console.log(localStorage.setItem("storedPlans", JSON.stringify(planTextArr)));
+  // console.log(localStorage.setItem("storedPlans", JSON.stringify(planTextArr)));
 });
 
-// Update color by time
+//Update color by time
 for (let hour = 9; hour <= 17; hour++) {
   if (hour > 12) {
     displayHour = hour - 12;
@@ -59,12 +60,3 @@ for (let hour = 9; hour <= 17; hour++) {
     $(".description").addClass("present");
   }
 }
-
-// WHEN I view the timeblocks for that day
-// THEN each timeblock is color coded to indicate whether it is in the past, present, or future
-// WHEN I click into a timeblock
-// THEN I can enter an event
-// WHEN I click the save button for that timeblock
-// THEN the text for that event is saved in local storage
-// WHEN I refresh the page
-// THEN the saved events persist
